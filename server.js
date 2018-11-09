@@ -7,7 +7,7 @@ var algorithms = {
   loop: 0,
   text: 0,
   animateUp: 1,
-  mic: 1
+  mic: 0
 } 
 
 var mode = "raspberryPi";
