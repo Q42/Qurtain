@@ -1,13 +1,24 @@
-var ws281x = require('../lib/ws281x-native');
+// find out on what screen we want to render
+var screen = null;
 
-var NUM_LEDS = parseInt(process.argv[2], 10) || 10,
-    pixelData = new Uint32Array(NUM_LEDS);
+var mode = "simulator"; // or live?
 
-ws281x.init(NUM_LEDS);
+if (mode=="live") {
+  console.log("running on live Rpi");
+  screen = require('../rpi_ws281x');
+} else {
+  console.log("running on simulator");
+  screen = require('./simulator');
+}
+
+var NUM_LEDS = 750;
+var pixelData = new Uint32Array(NUM_LEDS);
+
+screen.init(NUM_LEDS);
 
 // ---- trap the SIGINT and reset before exit
 process.on('SIGINT', function () {
-  ws281x.reset();
+  screen.reset();
   process.nextTick(function () { process.exit(0); });
 });
 
@@ -20,7 +31,7 @@ setInterval(function () {
   }
 
   offset = (offset + 1) % 256;
-  ws281x.render(pixelData);
+  screen.render(pixelData);
 }, 1000 / 30);
 
 console.log('Press <ctrl>+C to exit.');
