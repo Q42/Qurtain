@@ -1,5 +1,6 @@
 var fs = require('fs');
 var data = require('./data');
+const isPi = require('detect-rpi');
 
 // find out on what screen we want to render
 var screen = null;
@@ -10,15 +11,11 @@ var algorithms = {
   mic: 0
 } 
 
-var mode = "raspberryPi";
-try { 
-  require.resolve('rpi-ws281x-native'); 
+if (isPi()) {
   screen = require('rpi-ws281x-native');
-} catch (e) { 
+} else {
   screen = require('./simulator');
 }
-
-
 
 // ---- trap the SIGINT and reset before exit
 process.on('SIGINT', function () {
