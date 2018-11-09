@@ -73,20 +73,20 @@ function boot() {
       pixelData.set(col5, 600+step);
 
       pixelData[0] = Math.floor(bottomColor * Math.random());
-      pixelData[299] = bottomColor;
-      pixelData[300] = bottomColor;
-      pixelData[599] = bottomColor;
-      pixelData[600] = bottomColor;
+      pixelData[299] = Math.floor(bottomColor * Math.random());
+      pixelData[300] = Math.floor(bottomColor * Math.random());
+      pixelData[599] = Math.floor(bottomColor * Math.random());
+      pixelData[600] = Math.floor(bottomColor * Math.random());
 
-      pixelData[1] = bottomColor;
-      pixelData[298] = bottomColor;
-      pixelData[301] = bottomColor;
-      pixelData[598] = bottomColor;
-      pixelData[601] = bottomColor;
+      pixelData[1] = Math.floor(bottomColor * Math.random());
+      pixelData[298] = Math.floor(bottomColor * Math.random());;
+      pixelData[301] = Math.floor(bottomColor * Math.random());;
+      pixelData[598] = Math.floor(bottomColor * Math.random());;
+      pixelData[601] = Math.floor(bottomColor * Math.random());;
 
       screen.render(pixelData);
      
-    }, 1000 / 45);
+    }, 1000 / 30);
 
     setInterval(function() {
       //pixelData[0] = 19827323;
