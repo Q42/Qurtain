@@ -1,3 +1,7 @@
+
+var Simulator = require('./simulator.js');
+
+
 var ws281x = require('../lib/ws281x-native');
 
 var NUM_LEDS = parseInt(process.argv[2], 10) || 10,
