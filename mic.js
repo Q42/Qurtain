@@ -48,7 +48,7 @@ function start(screen, pixelData) {
           var addColor = [];
           for (var i=0; i<line.length; i++) {
             var color = Math.min(Math.floor(line[i] * maxAmplitude / 100 * 255), 255);
-            if (color>50) addColor.push(0xffffff); else addColor.push(0);
+            addColor.push(utils.rgb2Int(color,color,color));
 
           }
 
