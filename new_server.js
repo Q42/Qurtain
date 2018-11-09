@@ -1,3 +1,6 @@
+var fs = require('fs');
+    
+
 // find out on what screen we want to render
 var screen = null;
 
@@ -53,7 +56,6 @@ function boot() {
 
   if (game=="soundwave") {
     //animate up
-    
     setInterval(function () {
       var bottomColor = 0;
       if (Math.random()>0.8) bottomColor = 0xFE3322;
@@ -88,14 +90,36 @@ function boot() {
      
     }, 1000 / 30);
 
-    setInterval(function() {
-      //pixelData[0] = 19827323;
-    }, 2000);
+    // mount mic
+    var mic = require('mic');
+    
+    var micInstance = mic({
+      rate: '16000',
+      channels: '1',
+      debug: true,
+      exitOnSilence: 6
+    });
+
+    console.log("mounting mic");
+    var micInputStream = micInstance.getAudioStream();
+      
+    micInputStream.on('data', function(data) {
+      console.log("Recieved Input Stream: " + data.length);
+    });
+
+    micInputStream.on('silence', function() {
+      console.log("silence");
+    });
+
+    //var outputFileStream = fs.WriteStream('output.raw');
+
+    //micInputStream.pipe(outputFileStream);
+
+    micInstance.start();
   }
+
 }
-
-console.log('Press <ctrl>+C to exit.');
-
+  
 
 // rainbow-colors, taken from http://goo.gl/Cs3H0v
 function colorwheel(pos) {
@@ -108,3 +132,5 @@ function colorwheel(pos) {
 function rgb2Int(r, g, b) {
   return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 }
+
+console.log('Press <ctrl>+C to exit.');
