@@ -1,7 +1,7 @@
 // find out on what screen we want to render
 var screen = null;
 
-var game = "soundwave";
+var game = "text";
 
 var mode;
 
@@ -85,21 +85,129 @@ function boot() {
   }
 
   if(game=="text"){
-    var ws281xCanvas = require('rpi-ws281x-canvas');
-    var canvas = ws281xCanvas.create(5,150);
 
-    ctx = canvas.getContext('2d');
+ var a = [0x7c,0x44,0x44,0x7c,0x44];    
+ var b = [0x7c,0x44,0x78,0x44,0x7c];  
+ var c = [0x7c,0x40,0x40,0x40,0x7c];  
+ var d = [0x78,0x44,0x44,0x44,0x78];  
+ var e = [0x7c,0x40,0x78,0x40,0x7c];
+ var f = [0x7c,0x40,0x70,0x40,0x40];
+ var g = [0x7c,0x40,0x4c,0x44,0x7c];
+ var h = [0x44,0x44,0x7c,0x44,0x44];
+ var i = [0x7c,0x10,0x10,0x10,0x7c];
+ var j = [0x0c,0x04,0x04,0x44,0x7c];
+ var k = [0x44,0x48,0x70,0x48,0x44];
+ var l = [0x40,0x40,0x40,0x40,0x7c];
+ var m = [0x44,0x6c,0x54,0x44,0x44];
+ var n = [0x44,0x64,0x54,0x4c,0x44];
+ var o = [0x38,0x44,0x44,0x44,0x38];  
+ var p = [0x78,0x44,0x78,0x40,0x40];              
+ var q = [0x7c,0x44,0x44,0x7c,0x10];            
+ var r = [0x78,0x44,0x78,0x44,0x44];            
+ var s = [0x7c,0x40,0x7c,0x04,0x7c];            
+ var t = [0x7c,0x10,0x10,0x10,0x10];              
+ var u = [0x44,0x44,0x44,0x44,0x7c];            
+ var v = [0x44,0x44,0x28,0x28,0x10];            
+ var w = [0x44,0x44,0x54,0x54,0x28];            
+ var x = [0x44,0x28,0x10,0x28,0x44];            
+ var y = [0x44,0x44,0x28,0x10,0x10];            
+ var z = [0x7c,0x08,0x10,0x20,0x7c]; 
 
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(2, 2, 3, 3);
-    ctx.fillText("H",0,50); 
+ setChar(pixelData, h);
+ setChar(pixelData, a);
+ setChar(pixelData, l);
+ setChar(pixelData, l);
+ setChar(pixelData, o);
+ moveUp(pixelData);
+ moveUp(pixelData);
+ 
+    setInterval(function () {
+      if (Math.random()>0.97) setChar(pixelData, o);
 
-    screen.render(canvas.toUint32Array());
+      moveUp(pixelData);
+     
+    }, 1000 / 30);
+
+    setInterval(function() {
+      //pixelData[0] = 19827323;
+    }, 2000);
   }
 }
 
 console.log('Press <ctrl>+C to exit.');
 
+function setChar(pixelData, charar)
+{
+  var offColor = 0;
+  var textColor = 0xFE3322;
+
+ 
+
+  for(i = 0; i < 5; i++)
+  {
+    var original = charar[i].toString(2).padStart(7, '0');
+    var bits = reverse(reverse(original).substr(2));
+    console.log(bits);
+    for(c = 0; c < 5; c++)
+    {
+      var color = offColor;
+      if(bits[c] == "1")
+      {
+        //console.log("1")
+        color = textColor;
+      }
+
+      if(c == 0) pixelData[0] = color;
+      if(c == 1) pixelData[299] = color;
+      if(c == 2) pixelData[300] = color;
+      if(c == 3) pixelData[599] = color;
+      if(c == 4) pixelData[600] = color;
+      
+
+    }
+ moveUp(pixelData);
+  
+    
+  }
+  emptyLine(pixelData);
+ moveUp(pixelData);
+ moveUp(pixelData);
+
+
+}
+
+function reverse(s){
+  return s.split("").reverse().join("");
+}
+
+function moveUp(pixelData)
+{
+      col1 = pixelData.slice(0,149);
+      col2 = pixelData.slice(151,300);
+      col3 = pixelData.slice(300,449);
+      col4 = pixelData.slice(451,600);
+      col5 = pixelData.slice(600,749);
+
+      pixelData.set(col1, 1);
+      pixelData.set(col2, 150);
+      pixelData.set(col3, 301);
+      pixelData.set(col4, 450);
+      pixelData.set(col5, 601);
+
+     
+
+      screen.render(pixelData);
+}
+
+function emptyLine(pixelData)
+{
+  var bottomColor = 0;
+  pixelData[0] = bottomColor;
+  pixelData[299] = bottomColor;
+  pixelData[300] = bottomColor;
+  pixelData[599] = bottomColor;
+  pixelData[600] = bottomColor;
+}
 
 // rainbow-colors, taken from http://goo.gl/Cs3H0v
 function colorwheel(pos) {
