@@ -72,7 +72,7 @@ function boot() {
       pixelData.set(col4, 450);
       pixelData.set(col5, 600+step);
 
-      pixelData[0] = bottomColor;
+      pixelData[0] = Math.floor(bottomColor * Math.random());
       pixelData[299] = bottomColor;
       pixelData[300] = bottomColor;
       pixelData[599] = bottomColor;
@@ -83,7 +83,7 @@ function boot() {
       pixelData[301] = bottomColor;
       pixelData[598] = bottomColor;
       pixelData[601] = bottomColor;
-      
+
       screen.render(pixelData);
      
     }, 1000 / 45);
