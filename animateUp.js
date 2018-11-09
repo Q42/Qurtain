@@ -1,4 +1,4 @@
- const beatSpeed = 30;
+ const beatSpeed = -1;
 
  function start(screen, pixelData) {
    //animate up
