@@ -83,6 +83,19 @@ function boot() {
       //pixelData[0] = 19827323;
     }, 2000);
   }
+
+  if(game=="text"){
+    var ws281xCanvas = require('rpi-ws281x-canvas');
+    var canvas = ws281xCanvas.create(5,150);
+
+    ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(2, 2, 3, 3);
+    ctx.fillText("H",0,50); 
+
+    screen.render(canvas.toUint32Array());
+  }
 }
 
 console.log('Press <ctrl>+C to exit.');
