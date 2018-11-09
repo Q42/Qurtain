@@ -10,6 +10,7 @@ try {
   mode = "live";
 } catch (e) {
   mode = "simulator";
+  console.log("error while connecting to rpi native", e);
 }
 
 if (mode=="live") {
