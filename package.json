@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.1",
   "description": "Node.js NeoPixel app in docker",
-  "author": "hypriot.com",
+  "author": "q42",
   "dependencies": {
-	"rpi-ws281x-native": "github:vipoo/node-rpi-ws281x-native#v1.x",
+	"rpi-ws281x-native": "github:hongjsk/node-rpi-ws281x-native"
   }
 }
