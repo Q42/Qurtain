@@ -56,19 +56,21 @@ function boot() {
     
     setInterval(function () {
       var bottomColor = 0;
-      if (Math.random()>0.1) bottomColor = 0xffffff; //0xFE3322;
+      if (Math.random()>0.8) bottomColor = 0xFE3322;
 
-      col1 = pixelData.slice(0,149);
-      col2 = pixelData.slice(151,300);
-      col3 = pixelData.slice(300,449);
-      col4 = pixelData.slice(451,600);
-      col5 = pixelData.slice(600,749);
+      var step = 2;
 
-      pixelData.set(col1, 1);
+      col1 = pixelData.slice(0,150-step);
+      col2 = pixelData.slice(150+step,300);
+      col3 = pixelData.slice(300,450-step);
+      col4 = pixelData.slice(450+step,600);
+      col5 = pixelData.slice(600,750-step);
+
+      pixelData.set(col1, step);
       pixelData.set(col2, 150);
-      pixelData.set(col3, 301);
+      pixelData.set(col3, 300+step);
       pixelData.set(col4, 450);
-      pixelData.set(col5, 601);
+      pixelData.set(col5, 600+step);
 
       pixelData[0] = bottomColor;
       pixelData[299] = bottomColor;
