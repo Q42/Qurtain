@@ -8,7 +8,7 @@ var algorithms = {
   loop: 0,
   text: 0,
   animateUp: 1,
-  mic: 0
+  mic: 1
 } 
 
 if (isPi()) {
