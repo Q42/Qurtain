@@ -6,7 +6,7 @@ var game = "soundwave";
 var mode;
 
 try {
-  var areWeOnRaspberry = resolve('rpi-ws281x-native');
+  var areWeOnRaspberry = require.resolve('rpi-ws281x-native');
   mode = "live";
 } catch (e) {
   mode = "simulator";
