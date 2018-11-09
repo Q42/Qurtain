@@ -1,21 +1,25 @@
+var _ = require ('lodash');
+
 function start(screen, pixelData) {
   // mount mic
   var mic = require('mic');
   var WavDecoder = require('wav-decoder');
   var header = require("waveheader");
-  
-  var micInstance = mic({
+
+  var config = {
     rate: '8000',
     channels: '1',
     bitwidth: 8,
-    debug: true,
+    debug: false,
     exitOnSilence: 3
-  });
+  };
+
+  var micInstance = mic(config);
 
   console.log("mounting mic");
   var micInputStream = micInstance.getAudioStream();
     
-  const minTime = 500; // ms
+  const minTime = 200; // ms
   const threshold = 0.7;
   let time = null;
   let buffers = [];
@@ -33,8 +37,10 @@ function start(screen, pixelData) {
           const wave = audioData.channelData[0];
           const maxAmplitude = _.max(wave);
           if (maxAmplitude > threshold) {
-          console.log('-----> clap'); // -> any logic here
+            console.log('-----> clap'); // -> any logic here
           }
+
+          console.log(maxAmplitude);
         })
         .catch(console.log);
       time = newTime; // -> reset the timer
