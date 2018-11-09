@@ -4,7 +4,7 @@ var fs = require('fs');
 // find out on what screen we want to render
 var screen = null;
 
-var game = "text";
+var game = "loop";
 
 var mode;
 
