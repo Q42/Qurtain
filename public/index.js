@@ -4,7 +4,7 @@ var ws = null;
 
 var ROWS = 150, COLS = 5;
 var DY = 5, DX = 15, WY=4, WX = 4;
-
+var fps = 0;
 var canvas, context;
 
 function init() {
@@ -18,6 +18,10 @@ function init() {
   render(off);
 
   connect();
+
+  setTimeout(function() {
+    showFps(fps); fps=0;
+  }, 1000);
 }
 
 function connect() {
@@ -32,27 +36,40 @@ function connect() {
     var data = new Uint32Array(eval(ev.data)); // slow! can be smarter
     render(data);
   }
+
+  ws.onclose = function (ev) {
+    showStatus("reconnecting...");
+    setTimeout(connect, 2000);
+  }
 }
 
 function drawPixel(col, row, color) {
   if (!color) color = 0;
-  var s = rgba(color);
-  context.fillStyle = s; //"#10108030";
+  
+  context.fillStyle = rgba(color); 
   context.fillRect(col*DX, row*DY, WX, WY);
-  //console.log("drawPixel", s);
 }
 
 function render(pixelData) {
   if (!pixelData) return;
 
-  var row = 0, col = 0;
+  var row = ROWS-1, col = 0, dir=-1;
   for (var i=0;i<pixelData.length;i++) {
     drawPixel(col, row, pixelData[i] );
-    row++;
-    if (row==ROWS) { row=0; col++; }
+    row+=dir;
+    if (row==ROWS) { col++; dir=-dir; row--; }
+    if (row==-1) { col++; dir=-dir; row++; }
   }
+  fps++;
 }
 
+function showStatus(status) {
+  document.getElementById("status").innerText = status;
+}
+
+function showFps(fps) {
+  document.getElementById("fps").innerText = fps + " fps";
+}
 
 function rgba(color) {
   if (color==0) return "#000000";

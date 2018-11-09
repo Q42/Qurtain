@@ -1,6 +1,8 @@
 // find out on what screen we want to render
 var screen = null;
 
+var game = "soundwave";
+
 var mode = "simulator"; // or live?
 
 if (mode=="live") {
@@ -22,17 +24,58 @@ process.on('SIGINT', function () {
   process.nextTick(function () { process.exit(0); });
 });
 
+setTimeout(boot, 2000);
 
-// ---- animation-loop
-var offset = 0;
-setInterval(function () {
-  for (var i = 0; i < NUM_LEDS; i++) {
-    pixelData[i] = colorwheel((offset + i) % 256);
+function boot() {
+
+
+  if (game=="loop") {
+
+    // ---- animation-loop
+    var offset = 0;
+    setInterval(function () {
+      for (var i = 0; i < NUM_LEDS; i++) {
+        pixelData[i] = colorwheel((offset + i) % 256);
+      }
+
+      offset = (offset + 1) % 256;
+      screen.render(pixelData);
+    }, 1000 / 60);
   }
 
-  offset = (offset + 1) % 256;
-  screen.render(pixelData);
-}, 1000 / 30);
+  if (game=="soundwave") {
+    //animate up
+    
+    setInterval(function () {
+      var bottomColor = 0;
+      if (Math.random()>0.9) bottomColor = 0xFE3322;
+
+      col1 = pixelData.slice(0,149);
+      col2 = pixelData.slice(151,300);
+      col3 = pixelData.slice(300,449);
+      col4 = pixelData.slice(451,600);
+      col5 = pixelData.slice(600,749);
+
+      pixelData.set(col1, 1);
+      pixelData.set(col2, 150);
+      pixelData.set(col3, 301);
+      pixelData.set(col4, 450);
+      pixelData.set(col5, 601);
+
+      pixelData[0] = bottomColor;
+      pixelData[299] = bottomColor;
+      pixelData[300] = bottomColor;
+      pixelData[599] = bottomColor;
+      pixelData[600] = bottomColor;
+      screen.render(pixelData);
+     
+    }, 1000 / 30);
+
+    setInterval(function() {
+      //pixelData[0] = 19827323;
+    }, 2000);
+  }
+}
 
 console.log('Press <ctrl>+C to exit.');
 
