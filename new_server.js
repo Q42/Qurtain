@@ -56,7 +56,7 @@ function boot() {
     
     setInterval(function () {
       var bottomColor = 0;
-      if (Math.random()>0.9) bottomColor = 0xFE3322;
+      if (Math.random()>0.8) bottomColor = 0xffffff; //0xFE3322;
 
       col1 = pixelData.slice(0,149);
       col2 = pixelData.slice(151,300);
