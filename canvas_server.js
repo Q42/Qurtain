@@ -9,8 +9,6 @@ ws281x.init(NUM_LEDS);
 
 ctx = canvas.getContext('2d');
 
-ws281x.init(100);
-
 ctx.fillStyle = 'blue';
 ctx.fillRect(2, 2, 3, 3);
 ctx.fillText("H",0,50); 
