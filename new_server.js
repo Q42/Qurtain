@@ -77,6 +77,13 @@ function boot() {
       pixelData[300] = bottomColor;
       pixelData[599] = bottomColor;
       pixelData[600] = bottomColor;
+
+      pixelData[1] = bottomColor;
+      pixelData[298] = bottomColor;
+      pixelData[301] = bottomColor;
+      pixelData[598] = bottomColor;
+      pixelData[601] = bottomColor;
+      
       screen.render(pixelData);
      
     }, 1000 / 45);
