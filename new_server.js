@@ -3,11 +3,18 @@ var screen = null;
 
 var game = "soundwave";
 
-var mode = "simulator"; // or live?
+var mode;
+
+try {
+  var areWeOnRaspberry = resolve('rpi-ws281x-native');
+  mode = "live";
+} catch (e) {
+  mode = "simulator";
+}
 
 if (mode=="live") {
   console.log("running on live Rpi");
-  screen = require('../rpi_ws281x');
+  screen = require('rpi-ws281x-native');
 } else {
   console.log("running on simulator");
   screen = require('./simulator');
