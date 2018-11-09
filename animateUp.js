@@ -14,7 +14,7 @@
       bottomColor = 0xFFFFFF;
     }
 
-    var step = 1;
+    var step = 2;
     
     col1 = pixelData.slice(0,150-step);
     col2 = pixelData.slice(150+step,300);
