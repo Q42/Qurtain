@@ -1,4 +1,5 @@
 var _ = require ('lodash');
+var utils = require ('./utils');
 
 function start(screen, pixelData) {
   // mount mic
@@ -7,9 +8,10 @@ function start(screen, pixelData) {
   var header = require("waveheader");
 
   var config = {
-    rate: '8000',
+    rate: '16000',
     channels: '1',
-    bitwidth: 8,
+    //size: 4096,
+    //bitwidth: 8,
     debug: false,
     exitOnSilence: 3
   };
@@ -27,6 +29,7 @@ function start(screen, pixelData) {
   micInputStream.on('data', buffer => {
     const newTime = new Date().getTime(); 
     buffers.push(buffer); // -> save previous recorded data
+    console.log("buf hit.",  buffer.length);
     if(newTime - time > minTime) { // -> start do something if min time pass
       const headerBuf = header(config.rate, config); // ->  create wav header
       buffers.unshift(headerBuf); // -> set header in top of buffers
@@ -40,7 +43,18 @@ function start(screen, pixelData) {
             console.log('-----> clap'); // -> any logic here
           }
 
-          console.log(maxAmplitude);
+          // writeline of amplitude in blue
+          var line = [20,60,120,40,20];
+          var addColor = [];
+          for (var i=0; i<line.length; i++) {
+            var color = Math.min(Math.floor(line[i] * maxAmplitude / 100 * 255), 255);
+            if (color>50) addColor.push(0xffffff); else addColor.push(0);
+
+          }
+
+          utils.writeLine(pixelData, 149, addColor, false);
+          screen.render(pixelData);
+          console.log(maxAmplitude, addColor);
         })
         .catch(console.log);
       time = newTime; // -> reset the timer

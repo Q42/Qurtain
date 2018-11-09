@@ -67,6 +67,29 @@ function emptyLine(pixelData)
   pixelData[600] = bottomColor;
 }
 
+function writeLine(pixelData, row, colorArray, merge)
+{
+  var fromBottom = 149-row; 
+
+  writePixel(pixelData, 0+fromBottom, colorArray[0], merge);
+  writePixel(pixelData, 299-fromBottom, colorArray[1], merge);
+  writePixel(pixelData, 300+fromBottom, colorArray[2], merge);
+  writePixel(pixelData, 599-fromBottom, colorArray[3], merge);
+  writePixel(pixelData, 600+fromBottom, colorArray[4], merge);
+}
+
+function writePixel(pixelData, pos, newColor, merge) {
+  var color = pixelData[pos];
+  if (merge) {
+    color = color + newColor;
+  } else {
+    color = newColor;
+  }
+  pixelData[pos] = color;
+
+  console.log("writePixel hit", pos,pixelData[pos],  newColor);
+}
+
    // rainbow-colors, taken from http://goo.gl/Cs3H0v
 function colorwheel(pos) {
   pos = 255 - pos;
@@ -83,3 +106,6 @@ module.exports.setChar = setChar;
 module.exports.reverse = reverse;
 module.exports.moveUp = moveUp;
 module.exports.emptyLine = emptyLine;
+module.exports.writeLine = writeLine;
+module.exports.writePixel = writePixel;
+module.exports.rgb2Int = rgb2Int;
