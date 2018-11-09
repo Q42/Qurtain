@@ -7,7 +7,8 @@
   "dependencies": {
     "express": "^4.16.4",
     "http": "0.0.0",
-    "ws": "^6.1.0",
-    "rpi-ws281x-native": "github:hongjsk/node-rpi-ws281x-native"
+    "rpi-ws281x-canvas": "^0.1.0",
+    "rpi-ws281x-native": "github:hongjsk/node-rpi-ws281x-native",
+    "ws": "^6.1.0"
   }
 }
