@@ -48,7 +48,7 @@ function render(pixelData) {
       lastScreen = pixelData;
     //sendToSceens();
 
-    console.log("sending screen", pixelData.length);
+    //console.log("sending screen", pixelData.length);
     wss.clients.forEach(function each(client) {
         client.send( "[" + pixelData.join(',') + "]" );
     });
