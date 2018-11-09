@@ -13,7 +13,7 @@ ws281x.init(100);
 
 ctx.fillStyle = 'blue';
 ctx.fillRect(2, 2, 3, 3);
-ctx.fillText("H",10,50); 
+ctx.fillText("H",0,50); 
 
 ws281x.render(canvas.toUint32Array());
 
