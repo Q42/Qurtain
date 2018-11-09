@@ -1,3 +1,6 @@
+var fs = require('fs');
+    
+
 // find out on what screen we want to render
 var screen = null;
 
@@ -10,7 +13,7 @@ try {
   mode = "live";
 } catch (e) {
   mode = "simulator";
-  console.log("error while connecting to rpi native", e);
+  //console.log("error while connecting to rpi native", e);
 }
 
 if (mode=="live") {
@@ -53,39 +56,74 @@ function boot() {
 
   if (game=="soundwave") {
     //animate up
-    
     setInterval(function () {
       var bottomColor = 0;
-      if (Math.random()>0.9) bottomColor = 0xFE3322;
+      if (Math.random()>0.8) bottomColor = 0xFE3322;
 
-      col1 = pixelData.slice(0,149);
-      col2 = pixelData.slice(151,300);
-      col3 = pixelData.slice(300,449);
-      col4 = pixelData.slice(451,600);
-      col5 = pixelData.slice(600,749);
+      var step = 2;
 
-      pixelData.set(col1, 1);
+      col1 = pixelData.slice(0,150-step);
+      col2 = pixelData.slice(150+step,300);
+      col3 = pixelData.slice(300,450-step);
+      col4 = pixelData.slice(450+step,600);
+      col5 = pixelData.slice(600,750-step);
+
+      pixelData.set(col1, step);
       pixelData.set(col2, 150);
-      pixelData.set(col3, 301);
+      pixelData.set(col3, 300+step);
       pixelData.set(col4, 450);
-      pixelData.set(col5, 601);
+      pixelData.set(col5, 600+step);
 
-      pixelData[0] = bottomColor;
-      pixelData[299] = bottomColor;
-      pixelData[300] = bottomColor;
-      pixelData[599] = bottomColor;
-      pixelData[600] = bottomColor;
+      pixelData[0] = Math.floor(bottomColor * Math.random());
+      pixelData[299] = Math.floor(bottomColor * Math.random());
+      pixelData[300] = Math.floor(bottomColor * Math.random());
+      pixelData[599] = Math.floor(bottomColor * Math.random());
+      pixelData[600] = Math.floor(bottomColor * Math.random());
+
+      pixelData[1] = Math.floor(bottomColor * Math.random());
+      pixelData[298] = Math.floor(bottomColor * Math.random());;
+      pixelData[301] = Math.floor(bottomColor * Math.random());;
+      pixelData[598] = Math.floor(bottomColor * Math.random());;
+      pixelData[601] = Math.floor(bottomColor * Math.random());;
+
       screen.render(pixelData);
      
     }, 1000 / 30);
 
+    // mount mic
+    var mic = require('mic');
+
+    var micInstance = mic({
+      rate: '16000',
+      channels: '1',
+      debug: true,
+      exitOnSilence: 6
+    });
+
+    console.log("mounting mic");
+    var micInputStream = micInstance.getAudioStream();
+
+    micInputStream.on('data', function(data) {
+      console.log("Recieved Input Stream: " + data.length);
+    });
+
     setInterval(function() {
       //pixelData[0] = 19827323;
     }, 2000);
-  }
+    micInputStream.on('silence', function() {
+      console.log("silence");
+    });
 
+    //var outputFileStream = fs.WriteStream('output.raw');
+
+    //micInputStream.pipe(outputFileStream);
+
+    micInstance.start();
+
+  }
   if(game=="text"){
 
+  
  var a = [0x7c,0x44,0x44,0x7c,0x44];    
  var b = [0x7c,0x44,0x78,0x44,0x7c];  
  var c = [0x7c,0x40,0x40,0x40,0x7c];  
@@ -113,6 +151,7 @@ function boot() {
  var y = [0x44,0x44,0x28,0x10,0x10];            
  var z = [0x7c,0x08,0x10,0x20,0x7c]; 
 
+  
  setChar(pixelData, h);
  setChar(pixelData, a);
  setChar(pixelData, l);
@@ -127,14 +166,9 @@ function boot() {
       moveUp(pixelData);
      
     }, 1000 / 30);
-
-    setInterval(function() {
-      //pixelData[0] = 19827323;
-    }, 2000);
   }
 }
 
-console.log('Press <ctrl>+C to exit.');
 
 function setChar(pixelData, charar)
 {
@@ -220,3 +254,5 @@ function colorwheel(pos) {
 function rgb2Int(r, g, b) {
   return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 }
+
+console.log('Press <ctrl>+C to exit.');
