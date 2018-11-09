@@ -53,7 +53,7 @@ function start(screen, pixelData) {
           }
 
           utils.writeLine(pixelData, 149, addColor, false);
-          screen.render(pixelData);
+          //screen.render(pixelData);
           console.log(maxAmplitude, addColor);
         })
         .catch(console.log);
