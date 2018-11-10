@@ -44,8 +44,8 @@ function start(screen, pixelData) {
           }
 
           // writeline of amplitude in blue
-          var line = [20,60,120,40,20];
-          var baseAmplification = 2;
+          var line = [30,60,100,60,30];
+          var baseAmplification = 4;
           var addColor = [];
           for (var i=0; i<line.length; i++) {
             var color = Math.min(Math.floor(line[i] * maxAmplitude*baseAmplification / 100 * 255), 255);
