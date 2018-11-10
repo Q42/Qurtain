@@ -5,6 +5,7 @@ const WIDTH = 5
 const HEIGHT = 150
 const WIGGLE_LENGTH = 10*Math.PI
 const SCALE = 5
+var intervalId;
 
 async function start(screen) {
 
@@ -13,7 +14,7 @@ async function start(screen) {
 
     const logo = await loadImage('./imgs/q42-logo-groot-on-black.png', IMG_W*SCALE, IMG_H*SCALE)
     var offset = 0
-    setInterval(async () => {
+    intervalId = setInterval(async () => {
         const canvas = await newImage(WIDTH*SCALE, HEIGHT*SCALE)
         const frame = logo.clone()
         const rotated = await frame.rotate(Math.cos(offset/WIGGLE_LENGTH) * 5)
@@ -52,4 +53,10 @@ async function newImage(width, height) {
     return await new Jimp(width, height)
 }
 
+function stop()
+{
+  clearInterval(intervalId);
+}
+
+module.exports.stop = stop;
 module.exports.start = start;

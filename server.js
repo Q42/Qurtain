@@ -4,13 +4,17 @@ const isPi = require('detect-rpi');
 
 // find out on what screen we want to render
 var screen = null;
+var currentAlg = null;
+var enabledAlgs = [];
+var currentAlgIndex = 0;
+var intervalId;
 var algorithms = {
   loop: 0,
-  text: 0,
+  text: 1,
   animateUp: 0,
   mic: 0,
-  logo: 0,
-  image: 0,
+  logo: 1,
+  image: 1,
   stars: 1
 } 
 
@@ -26,20 +30,46 @@ process.on('SIGINT', function () {
   process.nextTick(function () { process.exit(0); });
 });
 
-boot(algorithms);
+startAutoMode(algorithms);
 
-function boot(algs) {
+function startAutoMode(algs) {
   // initialize screen
   screen.init(data.NUM_LEDS);
 
   // load modules
   for (var file in algs) {
     if (algs[file]>0) {
-        
-      var alg = require("./" +file);
-      if (alg && alg.start) alg.start(screen, data.pixelData);
+      enabledAlgs.push(file);
     }
   }
+
+  intervalId = setInterval(function () {
+    start(enabledAlgs[currentAlgIndex]);
+    currentAlgIndex++;
+    if(currentAlgIndex >= enabledAlgs.length) currentAlgIndex = 0;
+  }, 1000 * 3, currentAlgIndex);
+}
+
+function start(file)
+{
+  console.log("Start: " + file);
+  if(currentAlg) currentAlg.stop();
+  
+  var alg = require("./" +file);
+  if (alg && alg.start) 
+  {
+    screen.reset();
+    alg.start(screen, data.pixelData);
+    currentAlg = alg;
+  }
+}
+
+function startManual(file)
+{
+  //Stop auto mode
+  clearInterval(intervalId);
+
+  start(file);
 }
 
 

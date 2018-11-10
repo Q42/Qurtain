@@ -27,6 +27,7 @@
   var y = [0x44,0x44,0x28,0x10,0x10];            
   var z = [0x7c,0x08,0x10,0x20,0x7c]; 
   
+  var intervalId;
   function start(screen, pixelData) {
     setText(pixelData, 'wootcamp', screen);
     utils.moveUp(pixelData);
@@ -34,7 +35,7 @@
 
     screen.render(pixelData);
     
-    setInterval(function () {
+    intervalId = setInterval(function () {
       if (Math.random()>0.97) setText(pixelData, 'wootcamp', screen);
 
       utils.moveUp(pixelData);
@@ -85,6 +86,12 @@
   
     
   }
-
+  function stop()
+  {
+    clearInterval(intervalId);
+    console.log("stopped text " + intervalId);
+  }
+  
+    module.exports.stop = stop;
    
   module.exports.start = start;

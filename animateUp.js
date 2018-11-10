@@ -1,13 +1,14 @@
  const beatSpeed = -1;
 
  let animationFrameListeners = [];
+ var intervalId;
 
  function start(screen, pixelData) {
    //animate up
    
    var heartBeat = 0;
 
-  setInterval(function () {
+   intervalId = setInterval(function () {
 
     if (animationFrameListeners.length>0) {
       // call listeners
@@ -63,6 +64,11 @@
 function onAnimationFrame(f) {
   if (f) animationFrameListeners.push(f);
 }
+function stop()
+{
+  clearInterval(intervalId);
+}
 
+  module.exports.stop = stop;
 module.exports.start = start;
 module.exports.onAnimationFrame = onAnimationFrame;
