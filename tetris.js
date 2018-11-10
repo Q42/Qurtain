@@ -321,6 +321,8 @@ function processKeyPress(msg) {
     board = board.down();
     board = board.down();
     board = board.down();
+    board = board.down();
+    board = board.down();
     
   }
   else if (msg == 'up')
