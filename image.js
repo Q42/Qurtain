@@ -15,8 +15,10 @@ async function start(screen) {
     var offset = 0
     setInterval(async () => {
         const canvas = await newImage(WIDTH*SCALE, HEIGHT*SCALE)
+        const frame = logo.clone()
+        const rotated = await frame.rotate(Math.cos(offset/WIGGLE_LENGTH) * 5)
         const wiggle = Math.round((Math.sin(offset/WIGGLE_LENGTH) * 7 - (IMG_W/2 - WIDTH/2)) * SCALE)
-        canvas.blit(logo, wiggle, ((offset++ % (HEIGHT+IMG_H)) -IMG_H)* SCALE )
+        canvas.blit(rotated, wiggle, ((offset++ % (HEIGHT+IMG_H)) -IMG_H)* SCALE )
         const pixels = canvasToPixels(canvas)
         screen.render(pixels)
     }, 1000 / 60)
