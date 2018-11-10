@@ -48,7 +48,6 @@
     var chars = txt.split('');
     for(i = 0; i < chars.length; i++)
     {
-      console.log(chars[i]);
       setChar(pixelData, chars[i], screen);
     }
   }

@@ -27,7 +27,7 @@ function setChar(pixelData, charar, screen)
       }
       moveUp(pixelData);
       screen.render(pixelData);
-     wait(1000/40);
+     //wait(1000/40);
        
      }
      emptyLine(pixelData);
