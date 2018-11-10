@@ -355,7 +355,9 @@ GameBoard.prototype.rotate = function rotate() {
 function renderBoardToLeds(matrix, screen) {
   var pixels = utils.matrixToPixels(matrix);
   for (var i=0; i<pixels.length; i++) {
-    pixels[i] = pixels[i] * 0xFFFFFF;
+    if (pixels[i]>0) {
+      pixels[i] = 0xFFFFFF;
+    }
   }
 
   if (pixels.length>750) pixels = pixels.slice(0,750);
