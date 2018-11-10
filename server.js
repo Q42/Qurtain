@@ -1,6 +1,7 @@
 var fs = require('fs');
 var data = require('./data');
 const isPi = require('detect-rpi');
+var webserver = require('./webserver');
 
 // find out on what screen we want to render
 var screen = null;
@@ -15,7 +16,8 @@ var algorithms = {
   mic: 0,
   logo: 1,
   image: 1,
-  stars: 1
+  tetris: 1,
+  stars: 0
 } 
 
 if (isPi()) {
@@ -70,6 +72,10 @@ function startManual(file)
   clearInterval(intervalId);
 
   start(file);
+
+  // intialize webserver (both for optional simulator as remote);
+  webserver.start();
+
 }
 
 
