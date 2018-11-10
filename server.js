@@ -78,8 +78,8 @@ function startManual(file)
 webserver.start();
 
 setTimeout(function() {
-  //startManual('animateUp');
-  startAutoMode(algorithms);
+  startManual('tetris');
+  //startAutoMode(algorithms);
 }, 1000);
 
 console.log('Press <ctrl>+C to exit.');
