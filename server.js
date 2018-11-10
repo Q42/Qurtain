@@ -60,8 +60,9 @@ function start(file)
   var alg = require("./" +file);
   if (alg && alg.start) 
   {
+    console.log('Starting', file);
     alg.start(screen, data.pixelData);
-    console.log("Start: " + file);
+    console.log("Started " + file);
     currentAlg = alg;
   }
 }

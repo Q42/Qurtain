@@ -10,12 +10,15 @@
 
    intervalId = setInterval(function () {
 
-    if (animationFrameListeners.length>0) {
-      // call listeners
-      for (var i=0; i<animationFrameListeners.length; i++) {
-        try { animationFrameListeners[i](pixelData); } catch (e) {
-          console.warn("animationFrameListener raised error", e);
+    if (pixelData) {
+      if (animationFrameListeners.length>0) {
+        // call listeners
+        for (var i=0; i<animationFrameListeners.length; i++) {
+          try { animationFrameListeners[i](pixelData); } catch (e) {
+            console.warn("animationFrameListener raised error", e);
+          }
         }
+
       }
     }
 
