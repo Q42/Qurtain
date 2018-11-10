@@ -1,4 +1,6 @@
 const utils = require('./utils');
+const webserver = require('./webserver');
+
 var intervalId = null;
 /*
 // Create a screen object.
@@ -197,7 +199,7 @@ var pieceNames = Object.keys(pieces);
 
 function GamePiece(opt) {
     opt = opt || {};
-    this.x = opt.x != null ? opt.x :  3;
+    this.x = opt.x != null ? opt.x :  2;
     this.y = opt.y != null ? opt.y :  0;
     this.piece = opt.piece || pieces[pieceNames[
         Math.floor(pieceNames.length * Math.random())]];
@@ -228,7 +230,7 @@ GamePiece.prototype.legal = function(board) {
     var litPos = litPositions(currentMatrix, this);
     for (var k = 0; k < litPos.length; ++k) {
         var pos = litPos[k];
-        if (pos.x < 0 || pos.x >= 10
+        if (pos.x < 0 || pos.x >= 5
            || pos.y < 0 || pos.y >= 150) return false;
     }
     for (var k = 0; k < litPos.length; ++k) 
@@ -368,7 +370,7 @@ function renderBoardToLeds(matrix, screen, pixelData) {
   pixels[350] = 0x30E030;
   pixels[720] = 0x3030E0;
   
-  console.log("rendering pixels", pixels.slice(700,750));
+  //console.log("rendering pixels", pixels.slice(700,750));
   
 
   screen.render(pixels); 
@@ -376,6 +378,22 @@ function renderBoardToLeds(matrix, screen, pixelData) {
 
 function start(screen, pixelData){
   var board = new GameBoard();
+
+  webserver.onReceive(function(msg) {
+   // console.log("tetris received", msg);
+
+        if (msg == 'left')
+           board = board.left();
+       else if (msg == 'right')
+           board = board.right();
+       else if (msg == 'down')
+           board = board.down();
+       else if (msg == 'up')
+           board = board.rotate();
+
+        renderBoardToLeds(board.currentMatrix(), screen, pixelData);
+      
+  })
 
   intervalId = setInterval(function() {
       board = board.down();

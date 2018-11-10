@@ -82,7 +82,7 @@ function startManual(file)
 webserver.start();
 
 setTimeout(function() {
-  startManual('logo');
-}, 1000);
+  startManual('tetris');
+}, 500);
 
 console.log('Press <ctrl>+C to exit.');
