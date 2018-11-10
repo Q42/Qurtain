@@ -13,7 +13,7 @@ function start(screen) {
         const imgHeight = 72
         const img = toImage(bigLogo, imgWidth)
 
-        const wiggle = Math.round(Math.sin(offset/WIGGLE_LENGTH) * 15)
+        const wiggle = Math.round(Math.sin(offset/WIGGLE_LENGTH) * 8)
         drawImage(matrix, img, wiggle, (offset++ % (HEIGHT+imgHeight)) -imgHeight)
         const pixels = matrixToPixels(matrix)
         screen.render(pixels);
