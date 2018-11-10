@@ -14,9 +14,9 @@ var algorithms = {
   text: 0,
   animateUp: 0,
   mic: 0,
-  logo: 0,
+  logo: 1,
   image: 0,
-  tetris: 1,
+  tetris: 0,
   stars: 0,
 } 
 
@@ -82,7 +82,7 @@ function startManual(file)
 webserver.start();
 
 setTimeout(function() {
-  startManual('tetris');
+  startManual('logo');
 }, 1000);
 
 console.log('Press <ctrl>+C to exit.');
