@@ -32,7 +32,7 @@ process.on('SIGINT', function () {
   process.nextTick(function () { process.exit(0); });
 });
 
-startAutoMode(algorithms);
+//startAutoMode(algorithms);
 
 function startAutoMode(algs) {
   // initialize screen
@@ -75,7 +75,9 @@ function startManual(file)
 
 }
 
-  // intialize webserver (both for optional simulator as remote);
-  webserver.start();
+// intialize webserver (both for optional simulator as remote);
+webserver.start();
+
+startManual('tetris');
 
 console.log('Press <ctrl>+C to exit.');
