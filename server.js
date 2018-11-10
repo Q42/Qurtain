@@ -16,8 +16,8 @@ var algorithms = {
   mic: 0,
   logo: 1,
   image: 1,
-  tetris: 1,
-  stars: 0
+  tetris: 0,
+  stars: 1,
 } 
 
 if (isPi()) {
@@ -73,11 +73,9 @@ function startManual(file)
 
   start(file);
 
-  // intialize webserver (both for optional simulator as remote);
-  webserver.start();
-
 }
 
-
+  // intialize webserver (both for optional simulator as remote);
+  webserver.start();
 
 console.log('Press <ctrl>+C to exit.');
