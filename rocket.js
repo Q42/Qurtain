@@ -3,27 +3,28 @@ const utils = require('./utils')
 
 const WIDTH = 5
 const HEIGHT = 150
-const WIGGLE_LENGTH = 10*Math.PI
 const SCALE = 3
+const IMG_W = 5
+const IMG_H = 33
 
 var intervalId = null;
 
 async function start(screen) {
-
-    const IMG_W = 15
-    const IMG_H = 72
-
-    const logo = await loadImage('./imgs/q42-logo-groot-on-black.png', IMG_W*SCALE, IMG_H*SCALE)
-    var offset = 0
+    const rocket = await loadImage('./imgs/rocket.png', IMG_W*SCALE, IMG_H*SCALE)
+    var i = 0
     intervalId = setInterval(async () => {
         const canvas = await newImage(WIDTH*SCALE, HEIGHT*SCALE)
-        const frame = logo.clone()
-        const rotated = await frame.rotate(Math.cos(offset/WIGGLE_LENGTH) * 3)
-        const wiggle = Math.round((Math.sin(offset/WIGGLE_LENGTH) * 4 - (IMG_W/2 - WIDTH/2)) * SCALE)
-        canvas.blit(rotated, wiggle, ((offset++ % (HEIGHT+IMG_H)) -IMG_H)* SCALE )
+        const frame = rocket.clone()
+        canvas.blit(frame, 0, posFromFrame(i+=10))
         const pixels = canvasToPixels(canvas)
         screen.render(pixels)
     }, 1000 / 15)
+}
+
+const posFromFrame = i => {
+    const total = HEIGHT*SCALE
+    const pos = (total - i % total) - IMG_H*SCALE
+    return Math.round(pos)
 }
 
 async function loadImage(path, width, height) {

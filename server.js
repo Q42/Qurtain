@@ -85,6 +85,7 @@ setTimeout(function() {
 webserver.onReceive(function(msg) {
   if(msg == 'text') startManual('text');
   if(msg == 'image') startManual('image');
+  if(msg == 'rocket') startManual('rocket');
   if(msg == 'logo') startManual('logo');
   if(msg == 'mic') startManual('mic');
   if(msg == 'stars') startManual('stars');
