@@ -6,11 +6,12 @@ const isPi = require('detect-rpi');
 var screen = null;
 var algorithms = {
   loop: 0,
-  text: 1,
+  text: 0,
   animateUp: 0,
   mic: 0,
   logo: 0,
-  image: 0
+  image: 0,
+  stars: 1
 } 
 
 if (isPi()) {
