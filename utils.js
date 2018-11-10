@@ -92,6 +92,10 @@ function writePixel(pixelData, pos, newColor, merge) {
   //console.log("writePixel hit", pos,pixelData[pos],  newColor);
 }
 
+function setPixel(pixelData, x, y, newColor) {
+
+}
+
    // rainbow-colors, taken from http://goo.gl/Cs3H0v
 function colorwheel(pos) {
   pos = 255 - pos;

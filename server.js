@@ -10,7 +10,8 @@ var algorithms = {
   animateUp: 0,
   mic: 0,
   logo: 0,
-  image: 1
+  image: 0,
+  tetris: 1
 } 
 
 if (isPi()) {
