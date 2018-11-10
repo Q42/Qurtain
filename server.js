@@ -7,8 +7,9 @@ var screen = null;
 var algorithms = {
   loop: 0,
   text: 0,
-  animateUp: 1,
-  mic: 1
+  animateUp: 0,
+  mic: 0,
+  logo: 1
 } 
 
 if (isPi()) {
