@@ -7,6 +7,7 @@ const ifft = require('fft-js').ifft;
 
 function start(screen, pixelData) {
   // mount mic
+  animateUp.start();
   var mic = require('mic');
   var WavDecoder = require('wav-decoder');
   var header = require("waveheader");
@@ -109,4 +110,10 @@ function start(screen, pixelData) {
   
 }
 
+function stop()
+{
+  animateUp.stop();
+}
+
+module.exports.stop = stop;
 module.exports.start = start;

@@ -12,10 +12,9 @@ var intervalId;
 var algorithms = {
   loop: 0,
   text: 1,
-  animateUp: 0,
   mic: 0,
   logo: 1,
-  image: 0,
+  image: 1,
   tetris: 0,
   stars: 1,
 } 
@@ -37,7 +36,6 @@ process.on('SIGINT', function () {
 
 console.log("screen is initialized");
 
-//startAutoMode(algorithms);
 
 function startAutoMode(algs) {
  
@@ -52,7 +50,7 @@ function startAutoMode(algs) {
     start(enabledAlgs[currentAlgIndex]);
     currentAlgIndex++;
     if(currentAlgIndex >= enabledAlgs.length) currentAlgIndex = 0;
-  }, 1000 * 3, currentAlgIndex);
+  }, 1000 * 10, currentAlgIndex);
 }
 
 function start(file)
@@ -80,7 +78,8 @@ function startManual(file)
 webserver.start();
 
 setTimeout(function() {
-  startManual('stars');
+  //startManual('animateUp');
+  startAutoMode(algorithms);
 }, 1000);
 
 console.log('Press <ctrl>+C to exit.');

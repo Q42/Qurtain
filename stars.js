@@ -10,7 +10,7 @@
     intervalId = setInterval(function () {
       for (var i = 0; i < pixelData.length; i++) {
         
-        if (Math.random()>0.95)
+        if (Math.random()>0.90)
         {
           //Turn on
          // pixelData[i] = 0xFFFFFF;
