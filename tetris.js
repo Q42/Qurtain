@@ -357,6 +357,8 @@ function renderBoardToLeds(matrix, screen) {
   for (var i=0; i<pixels.length; i++) {
     pixels[i] = pixels[i] * 0xFFFFFF;
   }
+
+  if (pixels.length>750) pixels = pixels.slice(0,750);
  
   screen.render(pixels); 
 }
