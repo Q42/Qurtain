@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 function setChar(pixelData, charar)
    {
      var offColor = 0;
@@ -102,6 +104,27 @@ function rgb2Int(r, g, b) {
   return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 }
 
+const createMatrix = (w, h) => Array(h).fill(0).map(x => Array(w).fill(0))
+
+const matrixToPixels = (matrix) => _
+  .chain(matrix)
+  .unzip()
+  .map((col, i) => i % 2 === 0 ? col.reverse() : col)
+  .flatten()
+  .value()
+
+const drawImage = (matrix, img, x, y) =>
+    img.forEach((row, i) =>
+        row.forEach((pixel, j) => 
+            drawPixel(matrix, pixel, x+j, y+i)))
+
+const drawPixel = (matrix, pixel, x, y) => { 
+    if (y >= 0 && y < matrix.length &&
+        x >= 0 && x < matrix[y].length) {
+        matrix[y][x] = pixel
+    }
+}
+
 module.exports.setChar = setChar;
 module.exports.reverse = reverse;
 module.exports.moveUp = moveUp;
@@ -109,3 +132,7 @@ module.exports.emptyLine = emptyLine;
 module.exports.writeLine = writeLine;
 module.exports.writePixel = writePixel;
 module.exports.rgb2Int = rgb2Int;
+
+module.exports.createMatrix = createMatrix;
+module.exports.matrixToPixels = matrixToPixels;
+module.exports.drawImage = drawImage;
