@@ -1,6 +1,7 @@
 var fs = require('fs');
 var data = require('./data');
 const isPi = require('detect-rpi');
+var webserver = require('./webserver');
 
 // find out on what screen we want to render
 var screen = null;
@@ -31,6 +32,9 @@ boot(algorithms);
 function boot(algs) {
   // initialize screen
   screen.init(data.NUM_LEDS);
+
+  // intialize webserver (both for optional simulator as remote);
+  webserver.start();
 
   // load modules
   for (var file in algs) {
