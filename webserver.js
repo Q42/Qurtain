@@ -39,6 +39,14 @@ function onReceive(receiveMessageListener) {
   if (receiveMessageListener) receiveMessageListeners.push(receiveMessageListener);
 }
 
+function unRegisterOnReceive(func) {
+  for (var i=0; i<receiveMessageListeners.length; i++) {
+    if (receiveMessageListeners[i] == func) {
+      receiveMessageListeners[i] = function() {}; // todo: delete if from array
+    }
+  }
+}
+
 function processReceivedMessage(message) {
   for (var i=0; i<receiveMessageListeners.length; i++) {
     try {
@@ -53,3 +61,4 @@ function processReceivedMessage(message) {
 module.exports.start = start;
 module.exports.send = send;
 module.exports.onReceive = onReceive;
+module.exports.unRegisterOnReceive = unRegisterOnReceive;

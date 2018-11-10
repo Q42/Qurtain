@@ -2,73 +2,6 @@ const utils = require('./utils');
 const webserver = require('./webserver');
 
 var intervalId = null;
-/*
-// Create a screen object.
-var screen = blessed.screen();
-// Create a box perfectly centered horizontally and vertically.
-var box = blessed.box({
-  top: 'center',
-  left: 'center',
-  width: 20,
-  height: 20,
-  content: '',
-  tags: true,
-  style: {
-    fg: 'white',
-    bg: 'black'
-  }
-});
-screen.append(box);
-*/
-
-function makeSquare(x, y) {
-    var box = blessed.box({
-        top: y,
-        left: x*2,
-        width: 2,
-        height: 1,
-        content: '',
-        style: {bg: 'black'} 
-    });
-
-    box.lit = function(bool) {
-        box.style.bg = bool ? 'white' : 'black';
-    }
-    return box;
-};
-
-// function renderer(placeholder) {
-//     var boxes = [];
-//     for (var i = 0; i < 10; ++i) {
-//         var row = [];
-//         for (var j = 0; j < 20; ++j) {
-//             var pixel = makeSquare(i, j);
-//             placeholder.append(pixel);
-//             row.push(pixel);
-//         }
-//         boxes.push(row);
-//     }   
-
-//     var self = {};
-//     self.lit = function(x, y, bool) {
-//         boxes[x][y].lit(bool);
-//     }
-//     self.render = function(pixels) {
-//         for (var i = 0; i < 10; ++i) 
-//             for (var j = 0; j < 20; ++j)
-//                 self.lit(i, j, pixels[j][i]);
-//     }
-//     return self;
-// }
-
-// screen.key(['escape', 'q', 'C-c'], function(ch, key) {
-//     return process.exit(0);
-// });
-
-// screen.render();
-
-
-// var rend = renderer(box);
 
 var pieces = {
 
@@ -199,7 +132,7 @@ var pieceNames = Object.keys(pieces);
 
 function GamePiece(opt) {
     opt = opt || {};
-    this.x = opt.x != null ? opt.x :  2;
+    this.x = opt.x != null ? opt.x :  1;
     this.y = opt.y != null ? opt.y :  0;
     this.piece = opt.piece || pieces[pieceNames[
         Math.floor(pieceNames.length * Math.random())]];
@@ -358,42 +291,38 @@ function renderBoardToLeds(matrix, screen, pixelData) {
   var pixels = utils.matrixToPixels(matrix);
   for (var i=0; i<pixels.length; i++) {
     if (pixels[i]>0) {
-      pixels[i] = 0xFFFFFF;
+      pixels[i] = 0xE06060;
     }
   }
-
-  if (pixels.length>750) pixels = pixels.slice(0,750);
- 
-  //pixelData.set(pixels, 0);
-
-  pixels[0] = 0xE03030;
-  pixels[350] = 0x30E030;
-  pixels[720] = 0x3030E0;
-  
-  //console.log("rendering pixels", pixels.slice(700,750));
-  
-
-  screen.render(pixels); 
+  pixelData.set(pixels, 0);
+  screen.render(pixelData); 
 }
 
-function start(screen, pixelData){
-  var board = new GameBoard();
+function processKeyPress(msg) {
+  if (msg == 'left')
+    board = board.left();
+  else if (msg == 'right')
+    board = board.right();
+  else if (msg == 'down') {
+  // todo: down until bottom?
+    board = board.down();
+  }
+  else if (msg == 'up')
+    board = board.rotate();
 
-  webserver.onReceive(function(msg) {
-   // console.log("tetris received", msg);
+  renderBoardToLeds(board.currentMatrix(), screen, pixelData);
+}
 
-        if (msg == 'left')
-           board = board.left();
-       else if (msg == 'right')
-           board = board.right();
-       else if (msg == 'down')
-           board = board.down();
-       else if (msg == 'up')
-           board = board.rotate();
+var board =null;
+var screen = null;
+var pixelData = null;
 
-        renderBoardToLeds(board.currentMatrix(), screen, pixelData);
-      
-  })
+function start(receivedScreen, receivedPixelData){
+  board = new GameBoard();
+  screen = receivedScreen;
+  pixelData = receivedPixelData;
+  
+  webserver.onReceive(processKeyPress)
 
   intervalId = setInterval(function() {
       board = board.down();
@@ -402,27 +331,13 @@ function start(screen, pixelData){
 
   }, 100);
 
-  
-  // screen.key(['left', 'right', 'down', 'up'], function(ch, kObj) {
-  //     var key = kObj.name;
-  //     if (key == 'left')
-  //         board = board.left();
-  //     else if (key == 'right')
-  //         board = board.right();
-  //     else if (key == 'down')
-  //         board = board.down();
-  //     else if (key == 'up')
-  //         board = board.rotate();
-  //     rend.render(board.currentMatrix());
-  //     screen.render();
-  // });
-
 }
 
 
 function stop()
 {
   clearInterval(intervalId);
+  webserver.unRegisterOnReceive(processKeyPress);
   console.log("stopped text " + intervalId);
 }
 
