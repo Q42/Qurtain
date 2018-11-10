@@ -28,23 +28,63 @@
   var z = [0x7c,0x08,0x10,0x20,0x7c]; 
   
   function start(screen, pixelData) {
-    utils.setChar(pixelData, h);
-    utils.setChar(pixelData, a);
-    utils.setChar(pixelData, l);
-    utils.setChar(pixelData, l);
-    utils.setChar(pixelData, o);
+    setText(pixelData, 'wootcamp', screen);
     utils.moveUp(pixelData);
     utils.moveUp(pixelData);
 
     screen.render(pixelData);
     
     setInterval(function () {
-      if (Math.random()>0.97) utils.setChar(pixelData, o);
+      if (Math.random()>0.97) setText(pixelData, 'wootcamp', screen);
 
-      moveUp(pixelData);
+      utils.moveUp(pixelData);
+      screen.render(pixelData);
     
     }, 1000 / 30);
   }
-   
+
+  function setText(pixelData, txt, screen)
+  {
+    var chars = txt.split('');
+    for(i = 0; i < chars.length; i++)
+    {
+      setChar(pixelData, chars[i], screen);
+    }
+  }
+
+  function setChar(pixelData, char, screen)
+  {
+    if(char == 'a') utils.setChar(pixelData, a, screen);
+    if(char == 'b') utils.setChar(pixelData, b, screen);
+    if(char == 'c') utils.setChar(pixelData, c, screen);
+    if(char == 'd') utils.setChar(pixelData, d, screen);
+    if(char == 'e') utils.setChar(pixelData, e, screen);
+    if(char == 'f') utils.setChar(pixelData, f, screen);
+    if(char == 'g') utils.setChar(pixelData, g, screen);
+    if(char == 'h') utils.setChar(pixelData, h, screen);
+    if(char == 'i') utils.setChar(pixelData, i, screen);
+    if(char == 'j') utils.setChar(pixelData, j, screen);
+    if(char == 'k') utils.setChar(pixelData, k, screen);
+    if(char == 'l') utils.setChar(pixelData, l, screen);
+    if(char == 'm') utils.setChar(pixelData, m, screen);
+    if(char == 'n') utils.setChar(pixelData, n, screen);
+    if(char == 'o') utils.setChar(pixelData, o, screen);
+    if(char == 'p') utils.setChar(pixelData, p, screen);
+    if(char == 'q') utils.setChar(pixelData, q, screen);
+    if(char == 'r') utils.setChar(pixelData, r, screen);
+    if(char == 's') utils.setChar(pixelData, s, screen);
+    if(char == 't') utils.setChar(pixelData, t, screen);
+    if(char == 'u') utils.setChar(pixelData, u, screen);
+    if(char == 'v') utils.setChar(pixelData, v, screen);
+    if(char == 'w') utils.setChar(pixelData, w, screen);
+    if(char == 'x') utils.setChar(pixelData, x, screen);
+    if(char == 'y') utils.setChar(pixelData, y, screen);
+    if(char == 'z') utils.setChar(pixelData, z, screen);
+
+
+  
+    
+  }
+
    
   module.exports.start = start;
