@@ -352,7 +352,7 @@ GameBoard.prototype.rotate = function rotate() {
 };
 
 
-function renderBoardToLeds(matrix, screen) {
+function renderBoardToLeds(matrix, screen, pixelData) {
   var pixels = utils.matrixToPixels(matrix);
   for (var i=0; i<pixels.length; i++) {
     if (pixels[i]>0) {
@@ -363,6 +363,7 @@ function renderBoardToLeds(matrix, screen) {
   if (pixels.length>750) pixels = pixels.slice(0,750);
  
   console.log("rendering pixels", pixels.slice(700,750));
+  pixelData.set(pixels, 0);
   screen.render(pixels); 
 }
 
@@ -372,7 +373,7 @@ function start(screen, pixelData){
   setInterval(function() {
       board = board.down();
 
-      renderBoardToLeds(board.currentMatrix(), screen);
+      renderBoardToLeds(board.currentMatrix(), screen, pixelData);
 
   }, 100);
 
