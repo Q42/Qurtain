@@ -14,8 +14,8 @@ var algorithms = {
   text: 0,
   animateUp: 0,
   mic: 0,
-  logo: 0,
-  image: 1,
+  logo: 1,
+  image: 0,
   tetris: 0,
   stars: 0,
 } 
@@ -26,18 +26,21 @@ if (isPi()) {
   screen = require('./simulator');
 }
 
+screen.init(data.NUM_LEDS);
+
 // ---- trap the SIGINT and reset before exit
 process.on('SIGINT', function () {
   screen.reset();
   process.nextTick(function () { process.exit(0); });
 });
 
-startAutoMode(algorithms);
+console.log("screen is initialized");
+
+//startAutoMode(algorithms);
 
 function startAutoMode(algs) {
   // initialize screen
-  screen.init(data.NUM_LEDS);
-
+ 
   // load modules
   for (var file in algs) {
     if (algs[file]>0) {
@@ -60,7 +63,7 @@ function start(file)
   var alg = require("./" +file);
   if (alg && alg.start) 
   {
-    screen.reset();
+    //screen.reset();
     alg.start(screen, data.pixelData);
     currentAlg = alg;
   }
@@ -75,7 +78,11 @@ function startManual(file)
 
 }
 
-  // intialize webserver (both for optional simulator as remote);
-  webserver.start();
+// intialize webserver (both for optional simulator as remote);
+webserver.start();
+
+setTimeout(function() {
+  startManual('logo');
+}, 1000);
 
 console.log('Press <ctrl>+C to exit.');

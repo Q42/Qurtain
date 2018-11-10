@@ -5,7 +5,7 @@ const WIDTH = 5
 const HEIGHT = 150
 const WIGGLE_LENGTH = 10*Math.PI
 const SCALE = 5
-var intervalId;
+
 
 async function start(screen) {
 
