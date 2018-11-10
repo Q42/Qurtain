@@ -4,10 +4,11 @@ var animateUp = require('./animateUp');
 const fft = require('fft-js').fft;
 const fftUtil = require('fft-js').util;
 const ifft = require('fft-js').ifft;
+var micInstance = null;
 
 function start(screen, pixelData) {
   // mount mic
-  animateUp.start();
+  animateUp.start(screen, pixelData);
   var mic = require('mic');
   var WavDecoder = require('wav-decoder');
   var header = require("waveheader");
@@ -21,7 +22,7 @@ function start(screen, pixelData) {
     exitOnSilence: 3
   };
 
-  var micInstance = mic(config);
+  micInstance = mic(config);
 
   console.log("mounting mic");
   var micInputStream = micInstance.getAudioStream();
@@ -62,7 +63,7 @@ function start(screen, pixelData) {
           });
           //console.log('ifft', ifft(phasors));
 
-          console.log('fft ready', both);
+          //console.log('fft ready', both);
 
           //
 
@@ -75,7 +76,7 @@ function start(screen, pixelData) {
             cnts[segment] += both[i].magnitude;
           }
 
-          console.log(cnts);
+          //console.log(cnts);
           colorLine = cnts;
         })
         .catch(console.log);
@@ -112,6 +113,7 @@ function start(screen, pixelData) {
 
 function stop()
 {
+  micInstance.stop();
   animateUp.stop();
 }
 
