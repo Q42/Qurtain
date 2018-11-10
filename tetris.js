@@ -1,6 +1,7 @@
 const utils = require('./utils');
 const webserver = require('./webserver');
 
+const COLORS = [0xFF2020, 0x20FFFF, 0x2020F0, 0x20F020];
 var intervalId = null;
 
 var pieces = {
@@ -136,7 +137,7 @@ function GamePiece(opt) {
     this.y = opt.y != null ? opt.y :  0;
     this.piece = opt.piece || pieces[pieceNames[
         Math.floor(pieceNames.length * Math.random())]];
-
+    this.color = opt.color || Math.floor(Math.random()*4);
     this.rotation = opt.rotation || 0;
 
 }
@@ -146,7 +147,8 @@ GamePiece.prototype.rotate = function() {
         x: this.x,
         y: this.y,
         piece: this.piece,
-        rotation: (this.rotation + 1) % this.piece.length
+        rotation: (this.rotation + 1) % this.piece.length,
+        color: this.color
     });
 };
 
@@ -155,7 +157,9 @@ GamePiece.prototype.move = function(opt) {
         x: this.x + (opt.dx || 0), 
         y: this.y + (opt.dy || 0),
         piece: this.piece, 
-        rotation: this.rotation
+        rotation: this.rotation,
+        color: this.color
+
     });
 };
 GamePiece.prototype.legal = function(board) {
@@ -224,7 +228,8 @@ GameBoard.prototype.merge = function(opt) {
     var pieceMatrix = opt.piece.piece[opt.piece.rotation];
     litPositions(pieceMatrix, opt.piece)
         .forEach(function(pos) {
-            newmatrix[pos.y][pos.x] = 1;
+            newmatrix[pos.y][pos.x] = opt.piece.color;
+            //console.log("piece", opt.piece.color);
         });
     return new GameBoard({
         matrix: newmatrix, 
@@ -243,18 +248,22 @@ GameBoard.prototype.currentMatrix = function() {
     return this.merge({piece: this.piece}).matrix;
 }
 
+
 GameBoard.prototype.down = function down() {
     var moved = this.piece.move({dy:1});
-    if (moved.legal(this))
+    if (moved.legal(this)) {
+       
         return new GameBoard({
-            piece: moved, 
-            matrix: this.matrix
-        });
-    else 
+          piece: moved, 
+          matrix: this.matrix
+      });
+      }
+    else {
         return this.merge({
             piece: this.piece, 
             create: new GamePiece()
         }).clean();
+      }
 }
 
 GameBoard.prototype.generic = function(f, after) {
@@ -291,7 +300,9 @@ function renderBoardToLeds(matrix, screen, pixelData) {
   var pixels = utils.matrixToPixels(matrix);
   for (var i=0; i<pixels.length; i++) {
     if (pixels[i]>0) {
-      pixels[i] = 0xE06060;
+      //console.log(pixels[i])
+      pixels[i] = COLORS[pixels[i]]; 
+      
     }
   }
   pixelData.set(pixels, 0);
@@ -306,6 +317,13 @@ function processKeyPress(msg) {
   else if (msg == 'down') {
   // todo: down until bottom?
     board = board.down();
+    board = board.down();
+    board = board.down();
+    board = board.down();
+    board = board.down();
+    board = board.down();
+    board = board.down();
+    
   }
   else if (msg == 'up')
     board = board.rotate();
@@ -321,7 +339,7 @@ function start(receivedScreen, receivedPixelData){
   board = new GameBoard();
   screen = receivedScreen;
   pixelData = receivedPixelData;
-  
+
   webserver.onReceive(processKeyPress)
 
   intervalId = setInterval(function() {
