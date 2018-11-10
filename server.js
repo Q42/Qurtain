@@ -34,6 +34,8 @@ process.on('SIGINT', function () {
   process.nextTick(function () { process.exit(0); });
 });
 
+console.log("screen is initialized");
+
 //startAutoMode(algorithms);
 
 function startAutoMode(algs) {
@@ -61,7 +63,7 @@ function start(file)
   var alg = require("./" +file);
   if (alg && alg.start) 
   {
-    screen.reset();
+    //screen.reset();
     alg.start(screen, data.pixelData);
     currentAlg = alg;
   }
@@ -79,6 +81,8 @@ function startManual(file)
 // intialize webserver (both for optional simulator as remote);
 webserver.start();
 
-startManual('tetris');
+setTimeout(function() {
+  startManual('tetris');
+}, 1000);
 
 console.log('Press <ctrl>+C to exit.');
