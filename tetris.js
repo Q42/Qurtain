@@ -409,3 +409,4 @@ function stop()
 }
 
 module.exports.start = start;
+module.exports.stop = stop;
