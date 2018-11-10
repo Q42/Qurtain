@@ -8,24 +8,25 @@
     screen.render(pixelData);
     
     intervalId = setInterval(function () {
-      console.log("stars");
       for (var i = 0; i < pixelData.length; i++) {
         
-        if (Math.random()>0.95)
+        if (Math.random()>0.90)
         {
           //Turn on
          // pixelData[i] = 0xFFFFFF;
          pixelData[i] = colorwheel((offset) % 256);
-          screen.render(pixelData);
+         
           offset = (offset + 1) % 256;
           setTimeout(function (n) {
             pixelData[n] = 0;
-            screen.render(pixelData);
+            //screen.render(pixelData);
           }, 1000 / 4, i);
         }
 
     }
-    }, 1000 / 60);
+
+    screen.render(pixelData);
+    }, 1000 / 10);
   }
 
   

@@ -69,6 +69,6 @@ function stop()
   clearInterval(intervalId);
 }
 
-  module.exports.stop = stop;
+module.exports.stop = stop;
 module.exports.start = start;
 module.exports.onAnimationFrame = onAnimationFrame;

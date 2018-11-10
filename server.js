@@ -11,13 +11,12 @@ var currentAlgIndex = 0;
 var intervalId;
 var algorithms = {
   loop: 0,
-  text: 0,
-  animateUp: 0,
+  text: 1,
   mic: 0,
   logo: 1,
-  image: 0,
+  image: 1,
   tetris: 0,
-  stars: 0,
+  stars: 1,
 } 
 
 if (isPi()) {
@@ -26,6 +25,7 @@ if (isPi()) {
   screen = require('./simulator');
 }
 
+  // initialize screen
 screen.init(data.NUM_LEDS);
 
 // ---- trap the SIGINT and reset before exit
@@ -36,10 +36,8 @@ process.on('SIGINT', function () {
 
 console.log("screen is initialized");
 
-//startAutoMode(algorithms);
 
 function startAutoMode(algs) {
-  // initialize screen
  
   // load modules
   for (var file in algs) {
@@ -52,19 +50,18 @@ function startAutoMode(algs) {
     start(enabledAlgs[currentAlgIndex]);
     currentAlgIndex++;
     if(currentAlgIndex >= enabledAlgs.length) currentAlgIndex = 0;
-  }, 1000 * 3, currentAlgIndex);
+  }, 1000 * 10, currentAlgIndex);
 }
 
 function start(file)
 {
-  console.log("Start: " + file);
   if(currentAlg) currentAlg.stop();
   
   var alg = require("./" +file);
   if (alg && alg.start) 
   {
-    //screen.reset();
     alg.start(screen, data.pixelData);
+    console.log("Start: " + file);
     currentAlg = alg;
   }
 }
@@ -72,10 +69,9 @@ function start(file)
 function startManual(file)
 {
   //Stop auto mode
-  clearInterval(intervalId);
+  if(intervalId) clearInterval(intervalId);
 
   start(file);
-
 }
 
 // intialize webserver (both for optional simulator as remote);
@@ -84,5 +80,6 @@ webserver.start();
 setTimeout(function() {
   startManual('tetris');
 }, 500);
+  
 
 console.log('Press <ctrl>+C to exit.');
