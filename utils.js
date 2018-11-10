@@ -1,6 +1,6 @@
 const _ = require('lodash')
 
-function setChar(pixelData, charar)
+function setChar(pixelData, charar, screen)
    {
      var offColor = 0;
      var textColor = 0xFE3322;
@@ -9,13 +9,11 @@ function setChar(pixelData, charar)
      {
        var original = charar[i].toString(2).padStart(7, '0');
        var bits = reverse(reverse(original).substr(2));
-       console.log(bits);
        for(c = 0; c < 5; c++)
        {
          var color = offColor;
          if(bits[c] == "1")
          {
-           //console.log("1")
            color = textColor;
          }
    
@@ -28,7 +26,8 @@ function setChar(pixelData, charar)
    
       }
       moveUp(pixelData);
-     
+      screen.render(pixelData);
+     wait(1000/40);
        
      }
      emptyLine(pixelData);
@@ -37,6 +36,15 @@ function setChar(pixelData, charar)
    
    
    }
+
+      
+  function wait(ms)
+  {
+  var d = new Date();
+  var d2 = null;
+  do { d2 = new Date(); }
+  while(d2-d < ms);
+  }
    
 function reverse(s){
   return s.split("").reverse().join("");
