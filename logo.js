@@ -1,4 +1,5 @@
 const _ = require('lodash')
+const utils = require('./utils')
 
 const WIDTH = 5
 const HEIGHT = 150
@@ -8,38 +9,19 @@ function start(screen) {
     
     var offset = 0;
     setInterval(function () {
-        const matrix = createMatrix(WIDTH, HEIGHT);
+        const matrix = utils.createMatrix(WIDTH, HEIGHT);
         const imgWidth = 15
         const imgHeight = 72
         const img = toImage(bigLogo, imgWidth)
 
         const wiggle = Math.round(Math.sin(offset/WIGGLE_LENGTH) * 8)
-        drawImage(matrix, img, wiggle, (offset++ % (HEIGHT+imgHeight)) -imgHeight)
-        const pixels = matrixToPixels(matrix)
+        utils.drawImage(matrix, img, wiggle, (offset++ % (HEIGHT+imgHeight)) -imgHeight)
+        const pixels = utils.matrixToPixels(matrix)
         screen.render(pixels);
     }, 1000 / 30)
 }
 
 module.exports.start = start;
-
-const matrixToPixels = (matrix) => _
-  .chain(matrix)
-  .unzip()
-  .map((col, i) => i % 2 === 0 ? col.reverse() : col)
-  .flatten()
-  .value()
-
-const drawImage = (matrix, img, x, y) =>
-    img.forEach((row, i) =>
-        row.forEach((pixel, j) => 
-            drawPixel(matrix, pixel, x+j, y+i)))
-
-const drawPixel = (matrix, pixel, x, y) => { 
-    if (x >= 0 && x < WIDTH && 
-        y >= 0 && y < HEIGHT) {
-        matrix[y][x] = pixel
-    }
-}
 
 const toImage = (raw, w) => _
   .chunk(raw, w * 4)

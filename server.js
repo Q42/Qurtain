@@ -9,7 +9,8 @@ var algorithms = {
   text: 0,
   animateUp: 0,
   mic: 0,
-  logo: 1
+  logo: 0,
+  image: 1
 } 
 
 if (isPi()) {
