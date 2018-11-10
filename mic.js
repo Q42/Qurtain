@@ -12,7 +12,7 @@ function start(screen, pixelData) {
   var header = require("waveheader");
 
   var config = {
-    rate: '16000',
+    rate: '32000',
     channels: '1',
     //size: 4096,
     //bitwidth: 8,
