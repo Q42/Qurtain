@@ -17,6 +17,7 @@ var algorithms = {
   image: 1,
   tetris: 0,
   stars: 1,
+  stars2: 1,
 } 
 
 if (isPi()) {
@@ -79,7 +80,7 @@ function startManual(file)
 webserver.start();
 
 setTimeout(function() {
-  startManual('stars');
+  startManual('stars2');
 }, 500);
   
 webserver.onReceive(function(msg) {
@@ -88,6 +89,7 @@ webserver.onReceive(function(msg) {
   if(msg == 'logo') startManual('logo');
   if(msg == 'mic') startManual('mic');
   if(msg == 'stars') startManual('stars');
+  if(msg == 'stars2') startManual('stars2');
   if(msg == 'tetris') startManual('tetris');
 });
 

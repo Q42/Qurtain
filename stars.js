@@ -20,7 +20,7 @@
           setTimeout(function (n) {
             pixelData[n] = 0;
             //screen.render(pixelData);
-          }, 1000 / 4, i);
+          }, 1000 * Math.random(), i);
         }
 
     }
