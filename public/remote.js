@@ -10,7 +10,7 @@ function init() {
 }
 
 function connect() {
-  ws = new WebSocket('ws://localhost:4242');
+  ws = new WebSocket('ws://' + location.hostname + ':4242');
   // event emmited when connected
   ws.onopen = function () {
     showStatus('connected');
