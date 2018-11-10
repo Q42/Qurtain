@@ -79,7 +79,7 @@ function startManual(file)
 webserver.start();
 
 setTimeout(function() {
-  startManual('mic');
+  startManual('stars');
 }, 500);
   
 webserver.onReceive(function(msg) {
