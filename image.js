@@ -4,7 +4,7 @@ const utils = require('./utils')
 const WIDTH = 5
 const HEIGHT = 150
 const WIGGLE_LENGTH = 10*Math.PI
-const SCALE = 5
+const SCALE = 3
 
 
 async function start(screen) {
@@ -17,12 +17,12 @@ async function start(screen) {
     intervalId = setInterval(async () => {
         const canvas = await newImage(WIDTH*SCALE, HEIGHT*SCALE)
         const frame = logo.clone()
-        const rotated = await frame.rotate(Math.cos(offset/WIGGLE_LENGTH) * 5)
-        const wiggle = Math.round((Math.sin(offset/WIGGLE_LENGTH) * 7 - (IMG_W/2 - WIDTH/2)) * SCALE)
+        const rotated = await frame.rotate(Math.cos(offset/WIGGLE_LENGTH) * 3)
+        const wiggle = Math.round((Math.sin(offset/WIGGLE_LENGTH) * 4 - (IMG_W/2 - WIDTH/2)) * SCALE)
         canvas.blit(rotated, wiggle, ((offset++ % (HEIGHT+IMG_H)) -IMG_H)* SCALE )
         const pixels = canvasToPixels(canvas)
         screen.render(pixels)
-    }, 1000 / 60)
+    }, 1000 / 15)
 }
 
 async function loadImage(path, width, height) {
