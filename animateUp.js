@@ -17,7 +17,7 @@
         }
       }
     }
-    
+
     var bottomColor = 0;
 
     heartBeat ++;
@@ -26,7 +26,7 @@
       bottomColor = 0xFFFFFF;
     }
 
-    var step = 2;
+    var step = 1;
     
     col1 = pixelData.slice(0,150-step);
     col2 = pixelData.slice(150+step,300);

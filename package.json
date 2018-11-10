@@ -5,6 +5,8 @@
   "description": "Node.js NeoPixel app in docker",
   "author": "q42",
   "dependencies": {
+    "audio-analyser": "^1.0.2",
+    "blob": "0.0.5",
     "detect-rpi": "^1.3.0",
     "express": "^4.16.4",
     "fft-js": "0.0.11",
@@ -14,8 +16,10 @@
     "mic": "^2.1.2",
     "rpi-ws281x-canvas": "^0.1.0",
     "rpi-ws281x-native": "github:hongjsk/node-rpi-ws281x-native",
+    "standardized-audio-context": "^17.0.3",
     "wav-decoder": "^1.3.0",
     "waveheader": "0.0.2",
+    "web-audio-api": "^0.2.2",
     "ws": "^6.1.0"
   }
 }

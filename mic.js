@@ -12,7 +12,7 @@ function start(screen, pixelData) {
   var header = require("waveheader");
 
   var config = {
-    rate: '32000',
+    rate: '16000',
     channels: '1',
     //size: 4096,
     //bitwidth: 8,
@@ -31,7 +31,8 @@ function start(screen, pixelData) {
   let time = null;
   let buffers = [];
   let lastAmplitude = 0;
-  let colorLine = [0,0,0,0,0];
+  let colorLine = [0,0,0,0,0];  
+
 
   micInputStream.on('data', buffer => {
     const newTime = new Date().getTime(); 
@@ -49,6 +50,7 @@ function start(screen, pixelData) {
           if (maxAmplitude > lastAmplitude) lastAmplitude = maxAmplitude;
 
           // fourier analys
+          
           var phasors= fft(audioData.channelData[0]);
 
           var frequencies = fftUtil.fftFreq(phasors, 16000), // Sample rate and coef is just used for length, and frequency step
@@ -59,7 +61,7 @@ function start(screen, pixelData) {
           });
           //console.log('ifft', ifft(phasors));
 
-          //console.log('fft ready', both);
+          console.log('fft ready', both);
 
           //
 
@@ -68,7 +70,7 @@ function start(screen, pixelData) {
           for (var i=0; i<both.length; i++) {
             var b = both[i]; b0 = b.frequency;
             var segment;
-            if (b0<500) segment = 0; else if (b0<3000) segment=1; else if (b0<6000) segment =2; else if (b0<12000) segment=3; else if (b0<20000) segment = 4;
+            if (b0<500) segment = 0; else if (b0<2000) segment=1; else if (b0<4000) segment =2; else if (b0<6000) segment=3; else segment = 4;
             cnts[segment] += both[i].magnitude;
           }
 
@@ -91,12 +93,14 @@ function start(screen, pixelData) {
     var addColor = [];
     for (var i=0; i<line.length; i++) {
       var color = Math.min(Math.floor(line[i] * maxAmplitude*baseAmplification / 100 * 255), 255);
-      red = Math.min(1000,colorLine[i])/4;
+      var red = Math.min(1000,colorLine[i] * maxAmplitude)/5+50;
+
+      green = Math.min(1000,colorLine[i])/5+50;
       addColor.push(utils.rgb2Int(red,color,color));
 
     }
 
-
+    
     utils.writeLine(pixelData, 149, addColor, false);
 
     if (lastAmplitude>0) lastAmplitude=lastAmplitude/killsoundFactor;
