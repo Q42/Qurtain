@@ -78,7 +78,7 @@ function startManual(file)
 webserver.start();
 
 setTimeout(function() {
-  startManual('tetris');
+  startManual('stars');
 }, 500);
   
 webserver.onReceive(function(msg) {
