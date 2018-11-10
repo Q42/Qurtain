@@ -362,6 +362,7 @@ function renderBoardToLeds(matrix, screen) {
 
   if (pixels.length>750) pixels = pixels.slice(0,750);
  
+  console.log("rendering pixels", pixels.slice(700,750));
   screen.render(pixels); 
 }
 

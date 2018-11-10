@@ -34,9 +34,6 @@ function boot(algs) {
   // initialize screen
   screen.init(data.NUM_LEDS);
 
-  // intialize webserver (both for optional simulator as remote);
-  webserver.start();
-
   // load modules
   for (var file in algs) {
     if (algs[file]>0) {
@@ -45,6 +42,10 @@ function boot(algs) {
       if (alg && alg.start) alg.start(screen, data.pixelData);
     }
   }
+
+  // intialize webserver (both for optional simulator as remote);
+  webserver.start();
+
 }
 
 
