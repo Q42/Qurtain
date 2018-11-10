@@ -81,5 +81,13 @@ setTimeout(function() {
   startManual('tetris');
 }, 500);
   
+webserver.onReceive(function(msg) {
+  if(msg == 'text') startManual('text');
+  if(msg == 'image') startManual('image');
+  if(msg == 'logo') startManual('logo');
+  if(msg == 'mic') startManual('mic');
+  if(msg == 'stars') startManual('stars');
+  if(msg == 'tetris') startManual('tetris');
+});
 
 console.log('Press <ctrl>+C to exit.');
