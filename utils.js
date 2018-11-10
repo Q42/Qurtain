@@ -27,13 +27,12 @@ function setChar(pixelData, charar, screen)
       }
       moveUp(pixelData);
       screen.render(pixelData);
-      wait(1000/35);
+      wait(1000/30);
        
      }
      emptyLine(pixelData);
     moveUp(pixelData);
-    moveUp(pixelData);
-   
+    screen.render(pixelData);
    
    }
 

@@ -91,6 +91,7 @@ webserver.onReceive(function(msg) {
   if(msg == 'stars') startManual('stars');
   if(msg == 'stars2') startManual('stars2');
   if(msg == 'tetris') startManual('tetris');
+  if(msg == 'off') startManual('off');
 });
 
 console.log('Press <ctrl>+C to exit.');
