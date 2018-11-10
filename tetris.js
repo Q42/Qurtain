@@ -1,5 +1,5 @@
 const utils = require('./utils');
-
+var intervalId = null;
 /*
 // Create a screen object.
 var screen = blessed.screen();
@@ -377,7 +377,7 @@ function renderBoardToLeds(matrix, screen, pixelData) {
 function start(screen, pixelData){
   var board = new GameBoard();
 
-  setInterval(function() {
+  intervalId = setInterval(function() {
       board = board.down();
 
       renderBoardToLeds(board.currentMatrix(), screen, pixelData);
@@ -402,5 +402,10 @@ function start(screen, pixelData){
 }
 
 
+function stop()
+{
+  clearInterval(intervalId);
+  console.log("stopped text " + intervalId);
+}
 
 module.exports.start = start;

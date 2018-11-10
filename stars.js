@@ -1,11 +1,14 @@
   var utils = require('./utils');
 
   var offset = 0;
+  var intervalId;
+
   function start(screen, pixelData) {
     
     screen.render(pixelData);
     
-    setInterval(function () {
+    intervalId = setInterval(function () {
+      console.log("stars");
       for (var i = 0; i < pixelData.length; i++) {
         
         if (Math.random()>0.95)
@@ -47,5 +50,11 @@ function rgb2Int(r, g, b) {
 
 }
 
-   
+function stop()
+{
+  clearInterval(intervalId);
+  console.log("stopped stars " + intervalId);
+}
+
+  module.exports.stop = stop;
   module.exports.start = start;

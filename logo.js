@@ -5,10 +5,11 @@ const WIDTH = 5
 const HEIGHT = 150
 const WIGGLE_LENGTH = 10*Math.PI
 
+var intervalId;
 function start(screen) {
     
     var offset = 0;
-    setInterval(function () {
+    intervalId = setInterval(function () {
         const matrix = utils.createMatrix(WIDTH, HEIGHT);
         const imgWidth = 15
         const imgHeight = 72
@@ -21,6 +22,12 @@ function start(screen) {
     }, 1000 / 30)
 }
 
+function stop()
+{
+  clearInterval(intervalId);
+}
+
+module.exports.stop = stop;
 module.exports.start = start;
 
 const toImage = (raw, w) => _
