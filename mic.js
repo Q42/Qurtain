@@ -44,22 +44,6 @@ function start(screen, pixelData) {
           //console.log("data received", audioData);
          
           const maxAmplitude = _.max(wave);
-
-          
-          // make a nice demping
-          if (maxAmplitude<lastAmplitude) {
-            maxAmplitude = lastAmplitude;
-          }
-          // if (maxAmplitude > threshold) {
-          //   console.log('-----> clap'); // -> any logic here
-          // }
-
-          // writeline of amplitude in blue
-          
-
-          //utils.writeLine(pixelData, 149, addColor, false);
-          //screen.render(pixelData);
-          //console.log(maxAmplitude, addColor);
           if (maxAmplitude > lastAmplitude) lastAmplitude = maxAmplitude;
         })
         .catch(console.log);
