@@ -15,16 +15,18 @@
           //Turn on
          // pixelData[i] = 0xFFFFFF;
          pixelData[i] = colorwheel((offset) % 256);
-          screen.render(pixelData);
+         
           offset = (offset + 1) % 256;
           setTimeout(function (n) {
             pixelData[n] = 0;
-            screen.render(pixelData);
+            //screen.render(pixelData);
           }, 1000 / 4, i);
         }
 
     }
-    }, 1000 / 20);
+
+    screen.render(pixelData);
+    }, 1000 / 10);
   }
 
   
