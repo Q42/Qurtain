@@ -79,7 +79,7 @@ function startManual(file)
 webserver.start();
 
 setTimeout(function() {
-  startManual('stars');
+  startManual('off');
 }, 500);
   
 webserver.onReceive(function(msg) {
