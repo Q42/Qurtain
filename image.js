@@ -29,7 +29,7 @@ function start(screen) {
                             utils.drawImage(matrix, arr, wiggle, (offset++ % (HEIGHT+IMG_H)) -IMG_H)
                             const pixels = utils.matrixToPixels(matrix)
                             screen.render(pixels);
-                        }, 1000 / 30)
+                        }, 1000 / 60)
                     }
                 })
             })
