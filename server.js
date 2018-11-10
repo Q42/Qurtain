@@ -26,6 +26,8 @@ if (isPi()) {
   screen = require('./simulator');
 }
 
+screen.init(data.NUM_LEDS);
+
 // ---- trap the SIGINT and reset before exit
 process.on('SIGINT', function () {
   screen.reset();
@@ -36,8 +38,7 @@ process.on('SIGINT', function () {
 
 function startAutoMode(algs) {
   // initialize screen
-  screen.init(data.NUM_LEDS);
-
+ 
   // load modules
   for (var file in algs) {
     if (algs[file]>0) {
