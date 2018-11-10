@@ -8,7 +8,6 @@
     screen.render(pixelData);
     
     intervalId = setInterval(function () {
-      console.log("stars");
       for (var i = 0; i < pixelData.length; i++) {
         
         if (Math.random()>0.95)
@@ -25,7 +24,7 @@
         }
 
     }
-    }, 1000 / 60);
+    }, 1000 / 20);
   }
 
   
