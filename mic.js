@@ -1,6 +1,9 @@
 var _ = require ('lodash');
 var utils = require ('./utils');
 var animateUp = require('./animateUp');
+const fft = require('fft-js').fft;
+const fftUtil = require('fft-js').util;
+const ifft = require('fft-js').ifft;
 
 function start(screen, pixelData) {
   // mount mic
@@ -41,10 +44,35 @@ function start(screen, pixelData) {
       WavDecoder.decode(Buffer.concat(buffers, length)) // -> decode buffers to float array
         .then(audioData => {
           const wave = audioData.channelData[0];
-          //console.log("data received", audioData);
-         
           const maxAmplitude = _.max(wave);
           if (maxAmplitude > lastAmplitude) lastAmplitude = maxAmplitude;
+
+          // fourier analys
+          var phasors= fft(audioData.channelData[0]);
+
+          var frequencies = fftUtil.fftFreq(phasors, 500), // Sample rate and coef is just used for length, and frequency step
+              magnitudes = fftUtil.fftMag(phasors);
+
+          var both = frequencies.map(function (f, ix) {
+            return {frequency: f, magnitude: magnitudes[ix]};
+          });
+          //console.log('ifft', ifft(phasors));
+
+          //console.log('fft ready', both);
+
+          //
+
+          // group by freq
+          var freqs = [ 0, 500, 8000, 12000, 20000];
+          var cnts = [0,0,0,0,0];
+          for (var i=0; i<both.length; i++) {
+            var b = both[i]; b0 = b[0];
+            var segment;
+            if (b0<500) segment = 0; else if (b0<5000) segment=1; else if (b0<8000) segment =2; else if (b0<12000) segment=3; else if (b0<20000) segment = 4;
+            if (both[i][0]<500) cnts[segment] += b[1];
+          }
+
+          console.log(cnts);
         })
         .catch(console.log);
       time = newTime; // -> reset the timer
