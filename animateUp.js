@@ -1,11 +1,23 @@
  const beatSpeed = -1;
 
+ let animationFrameListeners = [];
+
  function start(screen, pixelData) {
    //animate up
    
    var heartBeat = 0;
 
   setInterval(function () {
+
+    if (animationFrameListeners.length>0) {
+      // call listeners
+      for (var i=0; i<animationFrameListeners.length; i++) {
+        try { animationFrameListeners[i](pixelData); } catch (e) {
+          console.warn("animationFrameListener raised error", e);
+        }
+      }
+    }
+    
     var bottomColor = 0;
 
     heartBeat ++;
@@ -41,9 +53,16 @@
       pixelData[598] = Math.floor(bottomColor * Math.random());;
       pixelData[601] = Math.floor(bottomColor * Math.random());;
     }
+
+    
     screen.render(pixelData);
   
   }, 1000 / 30);
 }
 
+function onAnimationFrame(f) {
+  if (f) animationFrameListeners.push(f);
+}
+
 module.exports.start = start;
+module.exports.onAnimationFrame = onAnimationFrame;

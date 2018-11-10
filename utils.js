@@ -87,7 +87,7 @@ function writePixel(pixelData, pos, newColor, merge) {
   }
   pixelData[pos] = color;
 
-  console.log("writePixel hit", pos,pixelData[pos],  newColor);
+  //console.log("writePixel hit", pos,pixelData[pos],  newColor);
 }
 
    // rainbow-colors, taken from http://goo.gl/Cs3H0v
