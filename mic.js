@@ -12,7 +12,7 @@ function start(screen, pixelData) {
   var header = require("waveheader");
 
   var config = {
-    rate: '32000',
+    rate: '16000',
     channels: '1',
     //size: 4096,
     //bitwidth: 8,
@@ -31,6 +31,7 @@ function start(screen, pixelData) {
   let time = null;
   let buffers = [];
   let lastAmplitude = 0;
+  let colorLine = [0,0,0,0,0];
 
   micInputStream.on('data', buffer => {
     const newTime = new Date().getTime(); 
@@ -50,7 +51,7 @@ function start(screen, pixelData) {
           // fourier analys
           var phasors= fft(audioData.channelData[0]);
 
-          var frequencies = fftUtil.fftFreq(phasors, 500), // Sample rate and coef is just used for length, and frequency step
+          var frequencies = fftUtil.fftFreq(phasors, 16000), // Sample rate and coef is just used for length, and frequency step
               magnitudes = fftUtil.fftMag(phasors);
 
           var both = frequencies.map(function (f, ix) {
@@ -63,16 +64,16 @@ function start(screen, pixelData) {
           //
 
           // group by freq
-          var freqs = [ 0, 500, 8000, 12000, 20000];
           var cnts = [0,0,0,0,0];
           for (var i=0; i<both.length; i++) {
-            var b = both[i]; b0 = b[0];
+            var b = both[i]; b0 = b.frequency;
             var segment;
-            if (b0<500) segment = 0; else if (b0<5000) segment=1; else if (b0<8000) segment =2; else if (b0<12000) segment=3; else if (b0<20000) segment = 4;
-            if (both[i][0]<500) cnts[segment] += b[1];
+            if (b0<500) segment = 0; else if (b0<3000) segment=1; else if (b0<6000) segment =2; else if (b0<12000) segment=3; else if (b0<20000) segment = 4;
+            cnts[segment] += both[i].magnitude;
           }
 
           console.log(cnts);
+          colorLine = cnts;
         })
         .catch(console.log);
       time = newTime; // -> reset the timer
@@ -90,9 +91,11 @@ function start(screen, pixelData) {
     var addColor = [];
     for (var i=0; i<line.length; i++) {
       var color = Math.min(Math.floor(line[i] * maxAmplitude*baseAmplification / 100 * 255), 255);
-      addColor.push(utils.rgb2Int(color,color,color));
+      red = Math.min(1000,colorLine[i])/4;
+      addColor.push(utils.rgb2Int(red,color,color));
 
     }
+
 
     utils.writeLine(pixelData, 149, addColor, false);
 
