@@ -80,7 +80,7 @@ function startManual(file)
 webserver.start();
 
 setTimeout(function() {
-  startManual('off');
+  startManual('image');
 }, 500);
   
 webserver.onReceive(function(msg) {
