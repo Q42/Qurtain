@@ -92,6 +92,7 @@ webserver.onReceive(function(msg) {
   if(msg == 'stars') startManual('stars');
   if(msg == 'stars2') startManual('stars2');
   if(msg == 'tetris') startManual('tetris');
+  if(msg == 'image_pride') startManual('image_pride');
   if(msg == 'off') startManual('off');
 });
 
