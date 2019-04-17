@@ -24,8 +24,17 @@ function init() {
   }, 1000);
 }
 
+function getConnectionString() {
+  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+  var host = protocol + '://' + location.hostname;
+  if (parseInt(location.port, 10) !== 80) {
+    host += ':' + location.port;
+  }
+  return host;
+}
+
 function connect() {
-  ws = new WebSocket('ws://' + location.hostname + ':4242');
+  ws = new WebSocket(getConnectionString());
   // event emmited when connected
   ws.onopen = function () {
     showStatus('connected');
