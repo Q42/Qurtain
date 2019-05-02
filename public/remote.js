@@ -19,7 +19,7 @@ function getConnectionString() {
 }
 
 function connect() {
-  ws = new WebSocket(getConnectionString());
+  ws = new WebSocket(getConnectionString(), ['authorization_928392']);
   // event emmited when connected
   ws.onopen = function () {
     showStatus('connected');

@@ -136,6 +136,26 @@ const drawPixel = (matrix, pixel, x, y) => {
     }
 }
 
+/**
+ * Tests that an ip address is one that is reserved for local area, or internal networks.
+ */
+function isLocalIp (address) {
+    return (
+        address === '::' ||
+        address === '::1' ||
+        [
+            // 10.0.0.0 - 10.255.255.255
+            /^(::f{4}:)?10\.\d{1,3}\.\d{1,3}\.\d{1,3}/,
+            // 127.0.0.0 - 127.255.255.255
+            /^(::f{4}:)?127\.\d{1,3}\.\d{1,3}\.\d{1,3}/,
+            // fc00::/7
+            /^f[c-d][0-9a-f]{2}(::1$|:[0-9a-f]{1,4}){1,7}/,
+            // fe80::/10
+            /^fe[89ab][0-9a-f](::1$|:[0-9a-f]{1,4}){1,7}/
+        ].some(function (it) { return it.test(address) })
+    )
+}
+
 module.exports.setChar = setChar;
 module.exports.reverse = reverse;
 module.exports.moveUp = moveUp;
@@ -147,3 +167,4 @@ module.exports.rgb2Int = rgb2Int;
 module.exports.createMatrix = createMatrix;
 module.exports.matrixToPixels = matrixToPixels;
 module.exports.drawImage = drawImage;
+module.exports.isLocalIp = isLocalIp;
