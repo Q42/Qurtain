@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 app.use(bodyParser.json());
 
-app.post('/api/send', (req, res) => {
+const requireAuthorization = (req, res, next) => {
   if (!req.header('Authorization') || req.header('Authorization') !== "p$2xZ}gJpWrM%saHz9H$qWHQrm]new2sKcQn*3/nd6QC9XQ6Y9B8,B^bwTXjDX}9") {
     res.status(401);
     res.send('Unauthorized');
@@ -22,7 +22,19 @@ app.post('/api/send', (req, res) => {
     res.send('Missing `message` key in body.');
     return;
   }
+  next();
+};
+
+app.post('/api/send', requireAuthorization, (req, res) => {
   processReceivedMessage(req.body.message);
+  res.status(200);
+  res.send('OK');
+});
+
+let lastMessage = 'image';
+
+app.post('/api/prev', requireAuthorization, (req, res) => {
+  processReceivedMessage(lastMessage || 'image');
   res.status(200);
   res.send('OK');
 });
@@ -87,6 +99,7 @@ function unRegisterOnReceive(func) {
 }
 
 function processReceivedMessage(message) {
+  lastMessage = message;
   for (var i=0; i<receiveMessageListeners.length; i++) {
     try {
       receiveMessageListeners[i](message);
