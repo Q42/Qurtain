@@ -17,21 +17,22 @@ const requireAuthorization = (req, res, next) => {
     res.send('Unauthorized');
     return;
   }
+  next();
+};
+
+app.post('/api/send', requireAuthorization, (req, res) => {
   if (!req.body.message) {
     res.status(400);
     res.send('Missing `message` key in body.');
     return;
   }
-  next();
-};
-
-app.post('/api/send', requireAuthorization, (req, res) => {
   processReceivedMessage(req.body.message);
   res.status(200);
   res.send('OK');
 });
 
-let lastMessage = 'image';
+let currentMessage;
+let lastMessage;
 
 app.post('/api/prev', requireAuthorization, (req, res) => {
   processReceivedMessage(lastMessage || 'image');
@@ -99,7 +100,12 @@ function unRegisterOnReceive(func) {
 }
 
 function processReceivedMessage(message) {
-  lastMessage = message;
+  if (currentMessage === message) {
+    return;
+  }
+  // Update the last and current
+  lastMessage = currentMessage;
+  currentMessage = message;
   for (var i=0; i<receiveMessageListeners.length; i++) {
     try {
       receiveMessageListeners[i](message);
@@ -107,7 +113,6 @@ function processReceivedMessage(message) {
       console.warn("could not send message to listener", e, message);
     }
   }
-
 }
 
 module.exports.start = start;
